@@ -2,10 +2,7 @@ def solution(s):
     parens = 0
 
     for ch in s:
-        if ch == '(':
-            parens += 1
-        elif ch == ')':
-            parens -= 1
+        parens = parens + 1 if ch == '(' else parens - 1
 
         if parens < 0:
             break
