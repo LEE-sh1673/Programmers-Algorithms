@@ -11,4 +11,4 @@ def jaden_case(s):
 
 
 def is_empty(s):
-    return not s or not s.strip()
+    return not s
