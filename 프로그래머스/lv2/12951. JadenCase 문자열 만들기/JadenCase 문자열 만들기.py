@@ -1,6 +1,8 @@
 def solution(s):
-    arr = s.split(' ')
-    answer = []
-    for a in arr:
-        answer.append(a.capitalize())        
-    return ' '.join(answer)
+    answer = ''
+    
+    words = s.split(" ")
+    for word in words:
+        answer += (word.capitalize()+" ")
+    
+    return answer[:-1:]
