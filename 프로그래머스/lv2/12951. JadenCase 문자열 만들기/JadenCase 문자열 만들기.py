@@ -1,9 +1,6 @@
 def solution(s):
-    return ' '.join([jaden_case(w) for w in s.split(" ")])
-
-
-def jaden_case(s):
-    if not s:
-        return s
-
-    return s.capitalize()
+    arr = s.split(' ')
+    answer = []
+    for a in arr:
+        answer.append(a.capitalize())        
+    return ' '.join(answer)
