@@ -1,24 +1,15 @@
-from collections import deque
-
-
 def solution(people, limit):
-    q = deque()
-
-    for person in sorted(people):
-        q.append(person)
-
+    people.sort()
+    nums_people = len(people)
     nums_pair = 0
-    
-    while q:
-        big = q.pop()
 
-        if not q:
-            break
+    start = 0
+    end = nums_people - 1
 
-        small = q[0]
-
-        if small + big <= limit:
-            q.popleft()
+    while start < end:
+        if people[start] + people[end] <= limit:
             nums_pair += 1
+            start += 1
+        end -= 1
 
-    return len(people) - nums_pair
+    return nums_people - nums_pair
