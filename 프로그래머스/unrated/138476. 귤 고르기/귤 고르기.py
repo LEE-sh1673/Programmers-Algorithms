@@ -2,20 +2,15 @@ from collections import Counter
 
 
 def solution(k, tangerine):
-    tangerine_counter = sorted(
-        Counter(tangerine).items(),
-        key=lambda x: x[1],
-        reverse=True
-    )
-
+    total = 0
     answer = 0
-    nums_tangerine = 0
+    count_by_size = Counter(tangerine).values()
 
-    for _, count in tangerine_counter:
-        nums_tangerine += count
+    for count in sorted(count_by_size, reverse=True):
+        total += count
         answer += 1
 
-        if nums_tangerine >= k:
+        if total >= k:
             break
 
     return answer
