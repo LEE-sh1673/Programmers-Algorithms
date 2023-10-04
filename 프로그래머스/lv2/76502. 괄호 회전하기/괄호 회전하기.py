@@ -39,9 +39,20 @@ def is_valid_parens(s):
             
     return cnt == 0
 
+def check(s) -> bool:
+    while True:
+        if "()" in s:
+            s = s.replace("()","")
+        elif "{}" in s:
+            s = s.replace("{}","")
+        elif "[]" in s:
+            s = s.replace("[]","")
+        else:
+            return not s
+
 
 def solution(s):
     answer = 0
     for i in range(len(s)):
-        answer += 1 if is_valid_parens(s[i:] + s[:i]) else 0
+        answer += 1 if check(s[i:] + s[:i]) else 0
     return answer
