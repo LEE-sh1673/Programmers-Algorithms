@@ -1,14 +1,10 @@
-def solution(want, number, discount):
-    answer = 0
-    for day in range(len(discount)):
-        if all_discounted(day, want, number, discount):
-            answer += 1
-    return answer
+def solution(want, number, discount) -> bool:
+    return sum(is_products_discounted(want, number, discount[day:day + 10]) for day in range(len(discount)))
 
 
-def all_discounted(day, want, number, discount):
-    return all(discounted(product, quantity, discount[day:day+10]) for product, quantity in zip(want, number))
+def is_products_discounted(want, number, discount) -> bool:
+    return all(is_product_discounted(product, quantity, discount) for product, quantity in zip(want, number))
 
 
-def discounted(product, quantity, discount) -> bool:
+def is_product_discounted(product, quantity, discount) -> bool:
     return discount.count(product) >= quantity
