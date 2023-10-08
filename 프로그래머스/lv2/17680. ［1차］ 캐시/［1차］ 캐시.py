@@ -32,23 +32,18 @@ class ExecutionTimeMeter(CacheStat):
     def __init__(self, cache_size):
         self.cache_size = cache_size
         self.cache = []
-        self.exec_time = 0
     
     def meter(self, items):
-        for item in items: 
-            self.add(item.upper())
-        return self.exec_time
+        return sum([self.execute(item.upper()) for item in items])
     
-    def add(self, item):
-        hit = self.is_hit(item)
-        self.exec_time += (self.CACHE_HIT if hit else self.CACHE_MISS)
-        
-        if hit:
+    def execute(self, item):
+        if self.is_hit(item):
             self.move_to_rear(item)
-            return
+            return self.CACHE_HIT
         
         self.cache.append(item)
         self.update_cache()
+        return self.CACHE_MISS
         
     def is_hit(self, item):
         return item in self.cache
