@@ -1,10 +1,8 @@
+import re
+from collections import Counter
+
+
+
 def solution(s):
-    s = s[2:-2].split('},{')
-    answer = []
-    
-    for tuple_str in sorted(s, key=lambda x: len(x)):
-        for el in map(int, tuple_str.split(',')):        
-            if el not in answer:
-                answer.append(el)
-            
-    return answer
+    c = Counter(re.findall('\d+', s))
+    return [int(k) for k, _ in c.most_common()]
