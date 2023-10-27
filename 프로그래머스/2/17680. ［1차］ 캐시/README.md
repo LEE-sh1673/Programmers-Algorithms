@@ -1,6 +1,6 @@
 # [level 2] [1차] 캐시 - 17680 
 
-[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/17680?language=java) 
+[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/17680?language=python3) 
 
 ### 성능 요약
 
@@ -16,7 +16,7 @@
 
 ### 제출 일자
 
-2023년 10월 5일 15:0:1
+2023년 10월 5일 15:0:13
 
 ### 문제 설명
 

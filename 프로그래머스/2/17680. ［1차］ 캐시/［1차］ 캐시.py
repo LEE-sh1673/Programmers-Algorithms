@@ -34,30 +34,25 @@ class LRUCache(CacheStat):
         self.capacity = capacity
 
     def put(self, item):
-        hit = self.is_hit(item)
-        self.adjust(item, hit)
-        return self.CACHE_HIT if hit else self.CACHE_MISS
-
-    def is_hit(self, item):
-        return item in self.cache
-
-    def adjust(self, item, hit):
-        if hit:
+        if self.is_hit(item):
             self.move_to_end(item)
-            return        
-        self.add(item)
+            return self.CACHE_HIT
 
-    def add(self, item):
         self.cache.append(item)
         
         if len(self.cache) > self.capacity:
             self.cache.pop(0)
+
+        return self.CACHE_MISS
+
+    def is_hit(self, item):
+        return item in self.cache
     
     def move_to_end(self, item):
-        if (idx := self.cache.index(item)) >= 0:
-            self.cache.append(self.cache.pop(idx))
-
-
+        idx = self.cache.index(item)
+        self.cache.append(self.cache.pop(idx))
+          
+            
 class ExecutionTimeMeter:
     def __init__(self, cache_size):
         self.cache = LRUCache(cache_size)
