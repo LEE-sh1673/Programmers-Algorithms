@@ -2,18 +2,18 @@ def solution(storey):
     answer = 0
 
     while storey:
-        remainder = storey % 10
-        
-        if remainder > 5:
-            answer += (10 - remainder)
+        q, r = divmod(storey, 10)
+
+        if r > 5:
+            answer += (10 - r)
             storey += 10
-        elif remainder < 5:
-            answer += remainder
+        elif r < 5:
+            answer += r
         else:
-            if (storey // 10) % 10 > 4:
+            if q % 10 > 4:
                 storey += 10
-            answer += remainder
-            
+            answer += r
+
         storey //= 10
 
     return answer
