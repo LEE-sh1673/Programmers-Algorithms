@@ -1,34 +1,24 @@
-import heapq
-
-INF = int(1e9)
-
-
 def solution(N, road):
     graph = [[] for _ in range(N + 1)]
-    distance = [INF] * (N + 1)
+    distances = [0] * (N + 1)
+    visited = [False] * (N + 1)
     max_dist = 0
 
-    for info in road:
-        a, b = info
-        graph[a].append((b, 1))
-        graph[b].append((a, 1))
+    for a, b in road:
+        graph[a].append(b)
+        graph[b].append(a)
 
-    q = []
-    heapq.heappush(q, (0, 1))
-    distance[1] = 0
+    q = [1]
+    visited[1] = True
 
     while q:
-        dist, now = heapq.heappop(q)
+        node = q.pop(0)
 
-        if distance[now] < dist:
-            continue
-
-        for to, cost in graph[now]:
-            cost_total = dist + cost
-
-            if cost_total < distance[to]:
-                distance[to] = cost_total
-                heapq.heappush(q, (cost_total, to))
-                max_dist = max(max_dist, cost_total)
-
-    return distance.count(max_dist)
+        for adj_node in graph[node]:
+            if not visited[adj_node]:
+                visited[adj_node] = True
+                distances[adj_node] = distances[node] + 1
+                q.append(adj_node)
+    
+    distances.sort(reverse=True)
+    return distances.count(distances[0])
