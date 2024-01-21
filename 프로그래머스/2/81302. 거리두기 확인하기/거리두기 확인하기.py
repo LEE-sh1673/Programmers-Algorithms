@@ -1,6 +1,6 @@
 """
-맨해튼 거리
-T1, T2가 행렬 (r1, c1), (r2, c2) => |r1 - r2| + |c1 - c2|
+LV2. 거리두기 확인하기
+[https://school.programmers.co.kr/learn/courses/30/lessons/81302]
 
 조건:
 - 대기실은 5개이며, 각 대기실은 5x5
@@ -10,44 +10,42 @@ T1, T2가 행렬 (r1, c1), (r2, c2) => |r1 - r2| + |c1 - c2|
     - P는 응시자가 앉아있는 자리를 의미합니다.
     - O는 빈 테이블을 의미합니다.
     - X는 파티션을 의미합니다.
-
-[출력]
-- 1차원 정수 배열에 5개의 원소를 담아서 return 합니다.
-- places에 담겨 있는 5개 대기실의 순서대로, 거리두기 준수 여부를 차례대로 배열에 담습니다.
 """
-def manhattan_dist(r1, c1, r2, c2):
-    return abs(r1-r2) + abs(c1-c2)
-            
+
+
 def solution(places):
     answer = []
-    
+
     for place in places:
         is_valid = True
-            
+
         for i in range(5):
             for j in range(5):
-                if place[i][j] == "P" and not bfs(i, j, place): 
+                if place[i][j] == 'P' and not check(i, j, place):
                     is_valid = False
                     break
-        
+
             if not is_valid:
                 break
-        
+
         answer.append(1 if is_valid else 0)
     return answer
 
 
-def bfs(i, j, place):
-    dirs = [(0,1),(0,-1),(1,0),(-1,0)]
+def check(i, j, place):
+    """
+    bfs로 거리두기 준수 여부 탐색
+    """
+    dirs = [(0, 1), (0, -1), (1, 0), (-1, 0)]
     que = [(i, j, 0)]
-    
+
     while que:
         x, y, dist = que.pop(0)
-        
+
         for dir_x, dir_y in dirs:
             pos_x, pos_y = x + dir_x, y + dir_y
-    
-            if pos_x < 0 or pos_y < 0 or pos_x > 4 or pos_y > 4:
+
+            if pos_x < 0 or pos_x > 4 or pos_y < 0 or pos_y > 4:
                 continue
 
             if i == pos_x and j == pos_y:
@@ -58,5 +56,4 @@ def bfs(i, j, place):
 
             if place[pos_x][pos_y] == 'O' and dist + 1 < 2:
                 que.append([pos_x, pos_y, dist + 1])
-        
     return True
