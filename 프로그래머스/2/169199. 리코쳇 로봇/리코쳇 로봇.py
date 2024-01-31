@@ -9,9 +9,11 @@ def solution(board):
 
     def bfs(i, j):
         nonlocal answer
-        visited = [[False for _ in range(m)] for _ in range(n)]
         que = deque()
         que.appendleft((i, j, 0))
+
+        visited = set()
+        visited.add((i, j))
 
         while que:
             pos_x, pos_y, step = que.pop()
@@ -23,22 +25,21 @@ def solution(board):
                 answer = min(answer, step)
                 continue
 
+            visited.add((pos_x, pos_y))
+
             for dir_x, dir_y in [(0, -1), (0, 1), (1, 0), (-1, 0)]:
                 dx, dy = pos_x, pos_y
 
                 while (0 <= dx < n) and (0 <= dy < m) and board[dx][dy] != 'D':
-                    dx += dir_x
-                    dy += dir_y
+                    dx, dy = dx + dir_x, dy + dir_y
 
                 dx -= dir_x
                 dy -= dir_y
 
-                if visited[dx][dy]:
+                if (dx, dy) in visited:
                     continue
 
-                visited[dx][dy] = True
                 que.appendleft((dx, dy, step + 1))
-                # print(que)
 
     start_x, start_y = -1, -1
 
@@ -52,7 +53,4 @@ def solution(board):
             break
 
     bfs(start_x, start_y)
-    return -1 if answer == INF else answer 
-
-
-# print(solution(["...D..R", ".D.G...", "....D.D", "D....D.", "..D...."]))
+    return -1 if answer == INF else answer
