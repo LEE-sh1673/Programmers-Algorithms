@@ -1,16 +1,13 @@
-SELECT 
-    ID,
-    EMAIL,
-    FIRST_NAME,
-    LAST_NAME
+# SELECT DISTINCT a.ID, a.EMAIL, a.FIRST_NAME, a.LAST_NAME
+# FROM DEVELOPERS a, SKILLCODES b
+# WHERE b.NAME IN ("Python", "C#") AND (a.SKILL_CODE & b.CODE) > 0
+# ORDER BY a.ID;
+
+-- JOIN 풀이 (Python, C#을 모두 가지는 경우 중복 -> DISTINCT)
+SELECT DISTINCT a.ID, a.EMAIL, a.FIRST_NAME, a.LAST_NAME
 FROM
-    DEVELOPERS AS D
-WHERE 
-    D.SKILL_CODE IN (
-        SELECT D.SKILL_CODE
-        FROM
-            SKILLCODES
-        WHERE
-            (NAME = 'Python' OR NAME = 'C#') AND D.SKILL_CODE & CODE = CODE
-    )
-ORDER BY ID ASC;
+    DEVELOPERS a JOIN SKILLCODES b ON (a.SKILL_CODE & b.CODE) > 0
+WHERE
+    b.NAME IN ('Python', 'C#')
+ORDER BY
+    a.ID ASC;
