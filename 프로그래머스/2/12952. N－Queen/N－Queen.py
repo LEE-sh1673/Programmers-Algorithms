@@ -10,29 +10,28 @@
 """
 def solution(n):
     answer = 0
-    pos = [0] * n
+    
     flag_rows = [False] * n
-    diagonal_len = n * 2 - 1
 
     # 대각선 방향1 (↗,↙)
-    flag_a = [False] * diagonal_len
+    flag_a = [False] * (n*2 - 1)
 
     # 대각선 방향2 (↖,↘)
-    flag_b = [False] * diagonal_len
+    flag_b = [False] * (n*2 - 1)
 
     def queens(i):
         nonlocal answer
 
         for j in range(n):
-            if not flag_rows[j] and not flag_a[j + i] and not flag_b[i - j + n - 1]:
-                pos[i] = j
-
-                if i == n - 1:
-                    answer += 1
-                else:
-                    flag_rows[j] = flag_a[j + i] = flag_b[i - j + n - 1] = True
-                    queens(i + 1)
-                    flag_rows[j] = flag_a[j + i] = flag_b[i - j + n - 1] = False
+            if flag_rows[j] or flag_a[j+i] or flag_b[i-j+n-1]:
+                continue
+            
+            if i == n-1:
+                answer += 1
+            
+            flag_rows[j] = flag_a[j + i] = flag_b[i - j + n - 1] = True
+            queens(i + 1)
+            flag_rows[j] = flag_a[j + i] = flag_b[i - j + n - 1] = False
 
     queens(0)
     return answer
