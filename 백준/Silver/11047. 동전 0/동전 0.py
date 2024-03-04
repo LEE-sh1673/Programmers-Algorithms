@@ -11,9 +11,11 @@ def solution(n, k):
     coins = [int(input()) for _ in range(n)]
 
     for coin in coins[::-1]:
-        if coin <= k:
-            answer += k // coin
-            k %= coin
+        if coin > k:
+            continue
+            
+        answer += k // coin
+        k %= coin
 
     return answer
 
