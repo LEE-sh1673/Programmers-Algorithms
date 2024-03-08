@@ -1,14 +1,12 @@
 n = int(input())
 meetings = [list(map(int, input().split())) for _ in range(n)]
-meetings.sort(reverse=True)
-answer = 1
-curr = meetings[0]
 
-for i in range(1, n):
-    start, end = meetings[i]
-    
-    if end <= curr[0]:
+last_time = float('inf')
+answer = 0
+
+for start_time, end_time in sorted(meetings, reverse=True):
+    if end_time <= last_time:
+        last_time = start_time
         answer += 1
-        curr = meetings[i]
 
 print(answer)
