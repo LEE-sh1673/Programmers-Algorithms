@@ -12,14 +12,14 @@ input = stdin.readline
 
 for _ in range(int(input())):
     n = int(input())
-    prices = list(map(int, input().split()))
+    stocks = list(map(int, input().split()))
+    curr_max = 0
     answer = 0
-    j = n - 1
     
-    for i in range(n-2, -1, -1):
-        if prices[j] > prices[i]: # 값이 감소하는 지점
-            answer += prices[j] - prices[i]
-        else:
-            j = i
+    for stock in reversed(stocks):
+        if curr_max > stock: # 값이 감소하는 지점
+            answer += curr_max - stock
+        else: 
+            curr_max = stock
     
     print(answer)
