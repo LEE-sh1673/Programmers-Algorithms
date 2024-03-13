@@ -1,10 +1,9 @@
-"""
-
-
-"""
 def is_prime(n):
-    if n <= 1:
+    if n < 2:
         return False
+
+    if n == 2:
+        return True
     
     for i in range(2, int(n ** 0.5) + 1):
         if n % i == 0:
@@ -14,18 +13,25 @@ def is_prime(n):
 
 
 def solution(numbers):
-    prime_numbers = set()
+    unique_numbers = set()
+    n = len(numbers)
+    visited = [False] * n
 
-    def make_comb(str1, str2):
-        if str1 != "":
-            num = int(str1)
-            print(num)
+    def dfs(total, idx):
+        if total != "":
+            num = int(total)
 
             if is_prime(num):
-                prime_numbers.add(num)
+                unique_numbers.add(num)
 
-        for i in range(len(str2)):
-            make_comb(str1 + str2[i], str2[:i] + str2[i + 1:])
+            if idx == n:
+                return
 
-    make_comb("", numbers)
-    return len(prime_numbers)
+        for i, ch in enumerate(numbers):
+            if not visited[i]:
+                visited[i] = True
+                dfs(total + ch, idx + 1)
+                visited[i] = False
+
+    dfs("", 0)
+    return len(unique_numbers)
