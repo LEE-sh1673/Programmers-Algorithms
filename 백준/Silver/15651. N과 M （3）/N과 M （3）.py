@@ -1,7 +1,13 @@
+from sys import stdin
+from itertools import product
+
+input = stdin.readline
+
+
 def solution(n, m):
-    from itertools import product
-    products = map(lambda nums: " ".join(map(str, nums)), product(range(1, n+1), repeat=m))
-    print(*products, sep='\n')
+    numbers = [str(i) for i in range(1, n + 1)]
+    numbers = map(lambda nums: " ".join(nums), product(numbers, repeat=m))
+    print(*numbers, sep='\n')
 
 
 n, m = map(int, input().split())
