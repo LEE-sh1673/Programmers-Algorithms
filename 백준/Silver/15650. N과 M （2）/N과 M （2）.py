@@ -1,13 +1,23 @@
-n,m = list(map(int,input().split()))
-s = []
-def dfs(start):
-    if len(s)==m:
-        print(' '.join(map(str,s)))
-        return
-    
-    for i in range(start,n+1):
-        if i not in s:
-            s.append(i)
-            dfs(i+1)
-            s.pop()
-dfs(1)
+from sys import stdin
+
+input = stdin.readline
+
+
+def dfs(n, m, curr):
+    if len(curr) == m:
+        print(*curr)
+    else:
+        for i in range(1, n + 1):
+            if visited[i - 1] or (curr and curr[-1] >= i):
+                continue
+
+            visited[i - 1] = True
+            curr.append(i)
+            dfs(n, m, curr)
+            visited[i - 1] = False
+            curr.remove(i)
+
+
+n, m = map(int, input().split())
+visited = [False] * n
+dfs(n, m, [])
