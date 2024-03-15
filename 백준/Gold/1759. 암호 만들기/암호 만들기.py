@@ -9,18 +9,8 @@ def solution(l, c):
     words.sort()
 
     def is_candidate(pwd):
-        v_count, c_count = 0, 0  # 모음 개수, 자음 개수
-
-        for i in pwd:
-            if i in 'aeiou':
-                v_count += 1
-            else:
-                c_count += 1
-
-        if v_count >= 1 and c_count >= 2:
-            return True
-        else:
-            return False
+        vowels = len([ch for ch in pwd if ch in "aeiou"])
+        return vowels >= 1 and (l - vowels) >= 2
 
     def dfs(pwd):
         if len(pwd) == l and is_candidate(pwd):
