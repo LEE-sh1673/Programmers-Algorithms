@@ -6,7 +6,7 @@ from sys import stdin
 input = stdin.readline
 
 
-def solution1(n, m):
+def solution(n, m):
     visited = [False] * n
     numbers = [int(num) for num in input().split()]
     numbers.sort()
@@ -29,13 +29,5 @@ def solution1(n, m):
     dfs([])
 
 
-def solution2(m):
-    from itertools import combinations
-    numbers = [int(num) for num in input().split()]
-    numbers = combinations(map(str, sorted(numbers)), m)
-    print('\n'.join(list(map(' '.join, numbers))))
-
-
 n, m = map(int, input().split())
-# solution1(n, m)
-solution2(m)
+solution(n, m)
