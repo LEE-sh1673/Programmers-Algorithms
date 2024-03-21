@@ -1,35 +1,40 @@
 """
-2667. 단지번호 붙이기
+2667. 단지번호붙이기
 """
-from collections import deque, Counter
-from functools import reduce
-
-dx = [0, 0, 1, -1]
-dy = [1, -1, 0, 0]
 
 
-def dfs(x, y, cnt):
-    group[x][y] = cnt
-    for k in range(4):
-        nx, ny = x + dx[k], y + dy[k]
-        if 0 <= nx < n and 0 <= ny < n:
-            if a[nx][ny] == 1 and group[nx][ny] == 0:
-                dfs(nx, ny, cnt)
+def bfs(i, j):
+    que = [(i, j)]
+    nums_house = 1
+    houses[i][j] = 0
+    
+    while que:
+        i, j = que.pop(0)
+        
+        for dir_x, dir_y in [(0,1),(0,-1),(1,0),(-1,0)]:
+            x = i + dir_x
+            y = j + dir_y
+            
+            if x < 0 or x > n-1 or y < 0 or y > n-1:
+                continue
+            
+            if houses[x][y] == 1:
+                houses[x][y] = 0
+                que.append((x, y))
+                nums_house += 1
+                
+    return nums_house
 
 
 n = int(input())
-a = [list(map(int, list(input()))) for _ in range(n)]
-group = [[0] * n for _ in range(n)]
-cnt = 0
+houses = [[int(el) for el in input()] for _ in range(n)]
+groups = []
 
 for i in range(n):
     for j in range(n):
-        if a[i][j] == 1 and group[i][j] == 0:
-            cnt += 1
-            dfs(i, j, cnt)
+        if houses[i][j]:
+            groups.append(bfs(i, j))
 
-ans = reduce(lambda x, y: x + y, group)
-ans = [x for x in ans if x > 0]
-ans = sorted(list(Counter(ans).values()))
-print(cnt)
-print('\n'.join(map(str, ans)))
+groups.sort()
+print(len(groups))
+print('\n'.join(map(str, groups)))
