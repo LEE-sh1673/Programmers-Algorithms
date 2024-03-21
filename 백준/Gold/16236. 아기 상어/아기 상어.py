@@ -50,13 +50,13 @@ def find_shark():
 
 
 def solution(n, space, shark):
-    def bfs(i, j):
+    def find_candidates():
         fishes = []
         queue = deque()
         visited = [[False] * n for _ in range(n)]
 
-        queue.append((i, j, 0))
-        visited[i][j] = True
+        queue.append((shark.x, shark.y, 0))
+        visited[shark.x][shark.y] = True
 
         while queue:
             i, j, cnt = queue.popleft()
@@ -78,7 +78,7 @@ def solution(n, space, shark):
         return sorted(fishes, key=lambda fish: (fish.dist, fish.x, fish.y))
 
     while True:
-        candidate_fishes = bfs(shark.x, shark.y)
+        candidate_fishes = find_candidates()
 
         if not candidate_fishes:
             break
