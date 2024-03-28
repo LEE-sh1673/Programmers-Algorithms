@@ -8,30 +8,29 @@ def sub_total(nums):
     if n % 2 != 0:
         total += nums[-1]
 
-    return total + sum([max(nums[i]+nums[i+1], nums[i]*nums[i+1]) for i in range(0, n-1, 2)])
-    
+    return total + sum(\
+        [max(nums[i]+nums[i+1], nums[i]*nums[i+1]) for i in range(0, n-1, 2)]\
+    )
+
 
 def solution(n):
     plus = []
     minus = []
+    answer = 0
 
     for i in range(n):
         num = int(input())
 
         if num > 0:
             plus.append(num)
+        elif num == 1:
+            answer += 1
         else:
             minus.append(num)
 
-    if n == 1:
-        return plus[0] if plus else minus[0]
-
     plus.sort(reverse=True)
     minus.sort()
-    
-    total_plus = sub_total(plus)
-    total_minus = sub_total(minus)
-    return total_plus + total_minus
+    return answer + sub_total(plus) + sub_total(minus)
 
 
 input = stdin.readline
