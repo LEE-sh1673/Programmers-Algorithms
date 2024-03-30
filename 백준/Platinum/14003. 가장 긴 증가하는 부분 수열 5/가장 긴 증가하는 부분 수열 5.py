@@ -28,16 +28,15 @@ for i in range(n):
         check[idx] = nums[i]
         dp[i] = idx + 1
 
-target = max(dp)
-lis = []
+x = max(dp)
+print(x)
 
-for i in range(n-1, -1, -1):
-    if target < 1:
-        break
-        
-    if dp[i] == target:
-        lis.append(nums[i])
-        target -= 1
+result = []
+for i in range(n - 1, -1, -1):
+    if dp[i] == x:
+        result.append(nums[i])
+        x -= 1
 
-print(max(dp))
-print(*lis[::-1])
+result.reverse()
+for r in result:
+    print(r, end=' ')
