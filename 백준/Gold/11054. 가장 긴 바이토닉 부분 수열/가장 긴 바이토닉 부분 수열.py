@@ -1,41 +1,24 @@
 from sys import stdin
+from bisect import bisect_left
 
 
 def solution(n):
-    nums = list(map(int, input().split()))
-    check = []
-    dp = [1] * n
-    r_dp = [1] * n
+    def max_increase_sequence(numbers):
+        check = []
+        dp = [1] * n
 
-    def lower_bound(target):
-        start, end = 0, len(check) - 1
-
-        while start < end:
-            mid = start + (end - start) // 2
-
-            if check[mid] < target:
-                start = mid + 1
+        for i in range(n):
+            if not check or check[-1] < numbers[i]:
+                check.append(numbers[i])
             else:
-                end = mid
-        return start
+                check[bisect_left(check, numbers[i])] = numbers[i]
+            dp[i] = len(check)
+        return dp
 
-    for i in range(n):
-        if not check or check[-1] < nums[i]:
-            check.append(nums[i])
-        else:
-            check[lower_bound(nums[i])] = nums[i]
-        dp[i] = len(check)
-
-    check = []
-    for i in range(n - 1, -1, -1):
-        if not check or check[-1] < nums[i]:
-            check.append(nums[i])
-        else:
-            idx = lower_bound(nums[i])
-            check[idx] = nums[i]
-        r_dp[i] = len(check)
-
-    return max([dp[i] + r_dp[i] - 1 for i in range(n)])
+    nums = list(map(int, input().split()))
+    dp = max_increase_sequence(nums)
+    r_dp = max_increase_sequence(nums[::-1])[::-1]
+    return max([a + b - 1 for a, b in zip(dp, r_dp)])
 
 
 input = stdin.readline
