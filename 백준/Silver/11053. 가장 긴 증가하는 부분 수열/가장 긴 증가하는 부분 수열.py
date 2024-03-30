@@ -4,7 +4,6 @@ input = stdin.readline
 n = int(input())
 nums = list(map(int, input().split()))
 check = []
-dp = [1] * n
 
 
 def lower_bound(target):
@@ -26,6 +25,4 @@ for i in range(n):
     else:
         check[lower_bound(nums[i])] = nums[i]
 
-    dp[i] = len(check)
-
-print(max(dp))
+print(len(check))
