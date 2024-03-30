@@ -3,23 +3,39 @@ from sys import stdin
 
 def solution(n):
     nums = list(map(int, input().split()))
+    check = []
     dp = [1] * n
     r_dp = [1] * n
 
-    for i in range(1, n):
-        for j in range(i):
-            if nums[j] < nums[i]:
-                dp[i] = max(dp[i], dp[j] + 1)
+    def lower_bound(target):
+        start, end = 0, len(check) - 1
 
-    for i in range(n-1, -1, -1):
-        for j in range(n-1, i, -1):
-            if nums[j] < nums[i]:
-                r_dp[i] = max(r_dp[i], r_dp[j] + 1)
+        while start < end:
+            mid = start + (end - start) // 2
 
-    answer = 0
+            if check[mid] < target:
+                start = mid + 1
+            else:
+                end = mid
+        return start
+
     for i in range(n):
-        answer = max(answer, dp[i] + r_dp[i] - 1)
-    return answer
+        if not check or check[-1] < nums[i]:
+            check.append(nums[i])
+        else:
+            check[lower_bound(nums[i])] = nums[i]
+        dp[i] = len(check)
+
+    check = []
+    for i in range(n - 1, -1, -1):
+        if not check or check[-1] < nums[i]:
+            check.append(nums[i])
+        else:
+            idx = lower_bound(nums[i])
+            check[idx] = nums[i]
+        r_dp[i] = len(check)
+
+    return max([dp[i] + r_dp[i] - 1 for i in range(n)])
 
 
 input = stdin.readline
