@@ -8,11 +8,6 @@ items = defaultdict(list)
 plugs = []
 replace_count = 0
 
-
-def priority(name):
-    return -(items[name][0] if items[name] else 101)
-
-
 for idx, task in enumerate(tasks):
     items[task].append(idx)
 
@@ -28,7 +23,7 @@ for idx, task in enumerate(tasks):
         items[task].remove(idx)
     else:
         # 교체하는 경우
-        replace_item = min(plugs, key=lambda name: priority(name))
+        replace_item = min(plugs, key=lambda name: -(items[name][0] if items[name] else 101))
         plugs.remove(replace_item)
         plugs.append(task)
         items[task].remove(idx)
