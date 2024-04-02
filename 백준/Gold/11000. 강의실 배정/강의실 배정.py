@@ -1,18 +1,17 @@
-import sys
-import heapq
-input = sys.stdin.readline
+from sys import stdin
+from heapq import heappop, heappush
 
-N = int(input())
-time = []
+input = stdin.readline
+n = int(input())
+lectures = [tuple(map(int, input().split())) for _ in range(n)]
+lectures.sort()
 
-for _ in range(N):
-    time.append(list(map(int,input().split(' '))))
-time.sort(key=lambda x : (x[0],x[1]))
+heap = []
 
-heap = [time[0][1]]
-for i in range(1,N):
-    if heap[0] <= time[i][0]:
-        heapq.heappop(heap)
-    heapq.heappush(heap,time[i][1])
+for start, end in lectures:
+    heappush(heap, end)
+
+    if heap[0] <= start:
+        heappop(heap)
 
 print(len(heap))
