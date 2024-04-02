@@ -3,7 +3,7 @@ from bisect import bisect_left
 
 
 def exists(nums, target):
-    return (idx := bisect_left(A, target)) != len(nums) and A[idx] == target
+    return (idx := bisect_left(A, target)) != N and A[idx] == target
 
 
 N = int(stdin.readline())
