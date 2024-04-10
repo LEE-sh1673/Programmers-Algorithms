@@ -1,16 +1,16 @@
 """
 20056. 마법사 상어와 파이어볼
-
-
 """
 import math
+from collections import defaultdict
 
 dx8 = (-1, -1, 0, 1, 1, 1, 0, -1)
 dy8 = (0, 1, 1, 1, 0, -1, -1, -1)
 
 
-def merge(ball, others):
-    r1, c1, m1, s1, d1 = ball
+def split(balls):
+    first_ball, *others = balls
+    r1, c1, m1, s1, d1 = first_ball
 
     total_mass = m1
     total_speed = s1
@@ -44,32 +44,26 @@ def move(ball):
 
 
 n, m, k = map(int, input().split())
-balls = [list(map(int, input().split())) for _ in range(m)]
+fire_balls = [list(map(int, input().split())) for _ in range(m)]
 
 for _ in range(k):
-    positions = {}
     moved_balls = []
+    positions = defaultdict(list)
 
-    while balls:
-        ball = balls.pop()
-        moved_ball = move(ball)
-        r, c, _, _, _ = moved_ball
-        try:
-            positions[n * r + c].append(moved_ball)
-        except:
-            positions[n * r + c] = [moved_ball]
+    while fire_balls:
+        moved_ball = move(fire_balls.pop())
         moved_balls.append(moved_ball)
+        r, c, _, _, _ = moved_ball
+        positions[n * r + c].append(moved_ball)
 
     for ball in moved_balls:
         r, c, _, _, _ = ball
-
         if len(positions[n * r + c]) == 1:
-            balls.append(ball)
+            fire_balls.append(ball)
 
-    for idx, pos_balls in positions.items():
-        if len(pos_balls) >= 2:
-            first_ball, *others = pos_balls
-            merged_balls = merge(first_ball, others)
-            balls += merged_balls
+    for idx, balls in positions.items():
+        if len(balls) >= 2:
+            split_balls = split(balls)
+            fire_balls += split_balls
 
-print(sum([ball[2] for ball in balls]))
+print(sum([ball[2] for ball in fire_balls]))
