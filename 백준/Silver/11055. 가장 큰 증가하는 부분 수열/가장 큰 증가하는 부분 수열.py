@@ -1,18 +1,13 @@
 from sys import stdin
 
-n = int(stdin.readline().strip())
-nums = list(map(int, stdin.readline().strip().split()))
-dp = [0] * n
-dp[0] = nums[0]
-answer = 0
+input = stdin.readline
+n = int(input())
+nums = list(map(int, input().split()))
+dp = list(nums)
 
 for i in range(n):
-    dp[i] = nums[i]
-    
     for j in range(i):
         if nums[j] < nums[i]:
             dp[i] = max(dp[i], dp[j] + nums[i])
 
-    answer = max(answer, dp[i])
-
-print(answer)
+print(max(dp))
