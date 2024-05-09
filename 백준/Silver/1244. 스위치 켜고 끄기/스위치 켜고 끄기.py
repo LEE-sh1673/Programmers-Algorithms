@@ -18,29 +18,30 @@
 - 성별, 받은 수 (1=남, 2=여)
 """
 N = int(input())
-bulbs = [-1] + list(map(int, input().split()))
+bulbs = list(map(int, input().split()))
 K = int(input())
 
 for _ in range(K):
     sex, no = map(int, input().split())
 
     if sex == 1:  # 남자
-        for i in range(no, N + 1, no):
+        for i in range(no-1, N, no):
             bulbs[i] = (bulbs[i] + 1) % 2
 
     else:  # 여자
-        bulbs[no] = (bulbs[no] + 1) % 2
-        left, right = no - 1, no + 1
+        bulbs[no-1] = (bulbs[no-1] + 1) % 2
+        left, right = no - 2, no
 
-        while left >= 0 and right < N + 1 and bulbs[left] == bulbs[right]:
+        while left >= 0 and right < N and bulbs[left] == bulbs[right]:
             bulbs[left] = (bulbs[left] + 1) % 2
             bulbs[right] = (bulbs[right] + 1) % 2
             left -= 1
             right += 1
         
             
-for i in range(1, N + 1):
+for i in range(N):
+    if i != 0 and i % 20 == 0:
+        print()
+
     print(bulbs[i], end=" ")
     
-    if i % 20 == 0:
-        print()
