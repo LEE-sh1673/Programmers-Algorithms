@@ -6,8 +6,12 @@ public class Main
     private static int[] dx = new int[] { 0, -1, -1, -1, 0, 1, 1, 1 };
     private static int[] dy = new int[] { -1, -1, 0, 1, 1, 1, 0, -1 };
     
+    private static int n;
+    private static int m;
+    private static int[][] board;
+    private static boolean[][] removed;
     
-    private static void move(final List<Pair> clouds, final int[][] board, final Pair command, final int n) {
+    private static void move(final List<Pair> clouds, final Pair command) {
         
         final int di = command.getX();
         final int steps = command.getY();
@@ -17,10 +21,11 @@ public class Main
             int nx = (cloud.getX() + dx[di-1] * steps) % n;
             int ny = (cloud.getY() + dy[di-1] * steps) % n;
             
-            nx = nx < 0 ? n+nx : nx;
-            ny = ny < 0 ? n+ny : ny;
+            nx = nx < 0 ? n + nx : nx;
+            ny = ny < 0 ? n + ny : ny;
    
             board[nx][ny] += 1;
+            removed[nx][ny] = true;
             moved.add(Pair.of(nx, ny));
         }
         
@@ -50,7 +55,7 @@ public class Main
             for (int j = 0; j < n; j++) {
                 final Pair pair = Pair.of(i, j);
                 
-                if (!moved.contains(pair) && board[i][j] >= 2) {
+                if (!removed[i][j] && board[i][j] >= 2) {
                     board[i][j] -= 2;   
                     clouds.add(pair);
                 }
@@ -61,15 +66,14 @@ public class Main
 	public static void main(String[] args) throws IOException {
 	    
 	    final BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-	    StringTokenizer st = new StringTokenizer(br.readLine(), " ");
+	    StringTokenizer st = new StringTokenizer(br.readLine());
 	    
-	    int n = Integer.parseInt(st.nextToken());
-	    int m = Integer.parseInt(st.nextToken());
-	    
-	    final int[][] board = new int[n][n];
+	    n = Integer.parseInt(st.nextToken());
+	    m = Integer.parseInt(st.nextToken());
+	    board = new int[n][n];
 	    
 	    for (int i = 0; i < n; i++) {
-	        st = new StringTokenizer(br.readLine(), " ");
+	        st = new StringTokenizer(br.readLine());
 	        
 	        for (int j = 0; j < n; j++) {
 	            board[i][j] = Integer.parseInt(st.nextToken());
@@ -92,7 +96,8 @@ public class Main
 	    }
 	    
 	    for (final Pair command : commands) {
-	        move(clouds, board, command, n);
+	        removed = new boolean[n][n];
+	        move(clouds, command);
 	    }
 	    int total = Arrays.stream(board).flatMapToInt(Arrays::stream).sum();
 	    System.out.println(total);
