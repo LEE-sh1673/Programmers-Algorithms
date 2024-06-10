@@ -54,14 +54,14 @@ public class Main {
      * 
      */
     private static boolean possible(final int[] positions, final int h) {
-        int prev = 0;
-        for (int position : positions) {
-            if (position - h <= prev) {
-                prev = position + h;
-            } else {
+        if (positions[0] - h > 0 || positions[positions.length - 1] + h < n) {
+            return false;
+        }
+        for (int i = 1; i < positions.length; i++) {
+            if ((positions[i] - positions[i-1] + 1) / 2 > h) {
                 return false;
             }
         }
-        return n - prev <= 0;
+        return true;
     }
 }
