@@ -1,46 +1,52 @@
 import java.util.LinkedHashMap;
-import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
-import java.util.stream.Stream;
+import java.util.function.BiPredicate;
 
 
-class LRUCache extends LinkedHashMap<String, Integer> {
-
-    private static final int CACHE_HIT = 1;
-    private static final int CACHE_MISS = 5;
+public class LRUCache<K, V> extends LinkedHashMap<K, V> {
 
     private final int cacheSize;
+    private final BiPredicate<Map<K, V>, Map.Entry<K, V>> condition;
 
-    public LRUCache(final int cacheSize) {
+    private LRUCache(
+        final int cacheSize, 
+        final BiPredicate<Map<K, V>, Map.Entry<K, V>> condition
+    ) {
+        super(cacheSize, 0.75f, true);
         this.cacheSize = cacheSize;
-    }
-
-    public int register(final String item) {
-        if (isHit(item)) {
-            this.remove(item);
-            this.put(item, CACHE_HIT);
-            return CACHE_HIT;
-        }
-        this.put(item, CACHE_MISS);
-        return CACHE_MISS;
-    }
-
-    private boolean isHit(final String item) {
-        return this.containsKey(item);
+        this.condition = condition;
     }
 
     @Override
-    protected boolean removeEldestEntry(final Entry<String, Integer> eldest) {
-        return size() > cacheSize;
+    protected boolean removeEldestEntry(final Entry<K, V> eldest) {
+        return condition.test(this, eldest);
+    }
+
+    public static <K, V> LRUCache<K, V> newInstance(final int cacheSize) {
+        return new LRUCache<>(
+            cacheSize, 
+            (map, eldestEntry) -> map.size() > cacheSize
+        );
     }
 }
 
 
 class Solution {
     public int solution(int cacheSize, String[] cities) {
-        LRUCache cache = new LRUCache(cacheSize);
-        return Stream.of(cities)
-                .mapToInt((city) -> cache.register(city.toLowerCase()))
-                .sum();
+        LRUCache<String, String> cache = LRUCache.newInstance(cacheSize);
+        int answer = 0;
+        
+        for (final String city : cities) {
+            final String name = city.toLowerCase();
+            
+            if (cache.containsKey(name)) {
+                answer++;        
+            } else {
+                answer += 5;
+            }
+            cache.put(name, name);
+        }
+        return answer;
     }
 }
