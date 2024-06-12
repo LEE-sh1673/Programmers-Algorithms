@@ -7,12 +7,9 @@ public class FeatureDevelopment {
 
     private static final int MAX_PROCESS = 100;
 
-    private final int[] count;
-
     private final Queue<Integer> queue;
 
     public FeatureDevelopment() {
-        count = new int[MAX_PROCESS + 1];
         queue = new LinkedList<>();
     }
     
@@ -45,7 +42,30 @@ public class FeatureDevelopment {
 
 class Solution {
     public int[] solution(int[] progresses, int[] speeds) {
-        FeatureDevelopment featDevelopment = new FeatureDevelopment();
-        return featDevelopment.sol(progresses, speeds);
+        final Queue<Integer> days = new LinkedList<>();
+        final List<Integer> deploys = new ArrayList<>();
+
+        for (int i = 0; i < progresses.length; i++) {
+            int remainDays = calculateRemainDays(progresses[i], speeds[i]);
+
+            if (!days.isEmpty() && days.peek() < remainDays) {
+                deploys.add(days.size());
+                days.clear();
+            }
+            days.offer(remainDays);
+        }
+
+        if (!days.isEmpty()) {
+            deploys.add(days.size());
+            days.clear();
+        }
+        return deploys.stream()
+                .mapToInt(Integer::intValue)
+                .toArray();
     }
+
+    private int calculateRemainDays(final int progress, final int speed) {
+        return (int) Math.ceil((100.0 - progress) / speed);
+    }
+
 }
