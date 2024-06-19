@@ -16,11 +16,11 @@ class Solution {
         }
 
         Arrays.sort(groups);
-        final Set<Integer> total = new LinkedHashSet<>();
-
-        for (final Group group : groups) {
-            total.addAll(group.numbers);
-        }
+        
+        final Set<Integer> total = Arrays.stream(groups)
+                .flatMap(group ->  group.numbers.stream())
+                .collect(Collectors.toCollection(LinkedHashSet::new));
+        
         return total.stream().mapToInt(i -> i).toArray();
     }
 
