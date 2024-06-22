@@ -3,27 +3,16 @@ import java.util.stream.*;
 
 
 class Solution {
+
     public boolean solution(String[] phone_book) {
-        
-        Map<String, Integer> numberSet = new HashMap<>();
-        
-        for(String number : phone_book) {
-            numberSet.put(number, 1);
-        }
-        
-        
-        for(String phone_number : phone_book) {
-            
-            StringBuilder sb = new StringBuilder();
-            
-            for (int i = 0; i < phone_number.length(); i++) {
-                
-                sb.append(phone_number.charAt(i));
-                
-                if (!sb.toString().equals(phone_number) && numberSet.containsKey(sb.toString())) {
+        Set<String> phoneNumbers = new HashSet<>(Arrays.asList(phone_book));
+
+        for (final String phone_number : phone_book) {
+            for (int i = 1; i < phone_number.length(); i++) {
+                if (phoneNumbers.contains(phone_number.substring(0, i))) {
                     return false;
                 }
-            }            
+            }
         }
         return true;
     }
