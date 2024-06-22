@@ -1,24 +1,28 @@
 class Solution {
-    
-    private static int answer = 0;
-    
-    private static int r = 0;
-    
-    public void dfs(int[] numbers, int number, int index) {
-        
-        if (index == numbers.length) {
-            if (number == r) {
+
+    private static int N;
+    private static int key;
+    private static int answer;
+    private static int[] nums;
+    private static boolean[] visited;
+
+    public int solution(int[] numbers, int target) {
+        N = numbers.length;
+        key = target;
+        nums = numbers;
+        visited = new boolean[N];
+        dfs(0, 0);
+        return answer;
+    }
+
+    private void dfs(int idx, int total) {
+        if (idx >= N) {
+            if (total == key) {
                 answer++;
             }
-        } else {
-            dfs(numbers, number - numbers[index], index + 1);
-            dfs(numbers, number + numbers[index], index + 1);
+            return;
         }
-    }
-    
-    public int solution(int[] numbers, int target) {
-        r = target;
-        dfs(numbers, 0, 0);
-        return answer;
+        dfs(idx + 1, total + nums[idx]);
+        dfs(idx + 1, total - nums[idx]);
     }
 }
