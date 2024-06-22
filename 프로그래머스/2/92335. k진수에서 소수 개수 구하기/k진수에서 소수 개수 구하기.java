@@ -3,7 +3,7 @@ import java.util.*;
 
 class Solution {
     public int solution(int n, int k) {
-        String number = Long.toString(n, k);
+        String number = conv(n, k);
         int answer = 0;
         
         for (String num : number.split("0")) {
