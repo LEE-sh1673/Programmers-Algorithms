@@ -1,9 +1,13 @@
 def solution(phone_book):
-    
     phone_book.sort()
+    curr = phone_book[0]
     
-    for i in range(len(phone_book) - 1, -1, -1):
-        if phone_book[i].startswith(phone_book[i-1]):
+    # 12 13
+    
+    for num in phone_book[1:]:
+        if curr != num[:len(curr)]:
+            curr = num
+        else:
             return False
         
     return True
