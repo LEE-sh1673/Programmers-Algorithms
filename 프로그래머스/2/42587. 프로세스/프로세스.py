@@ -6,8 +6,8 @@ def solution(priorities, location):
     
     while pr_que:
         no, item = pr_que.pop(0)
-
-        if pr_que and max(pr_que, key=lambda x: x[1])[-1] > item:
+        
+        if any(item < other for _, other in pr_que):
             pr_que.append((no, item))
             continue
             
