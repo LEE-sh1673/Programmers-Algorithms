@@ -1,14 +1,20 @@
 def solution(priorities, location):
     answer = 0
-    q = [(idx, priority) for idx, priority in enumerate(priorities)]
+    pr_que = [(no, p) for no, p in enumerate(priorities)]
+    target = priorities[location]
+    order = 1
     
-    while True:
-        curr = q.pop(0)
-        
-        if any(curr[1] < priority for _, priority in q):
-            q.append(curr)
-        else:
-            answer += 1
+    while pr_que:
+        no, item = pr_que.pop(0)
+
+        if pr_que and max(pr_que, key=lambda x: x[1])[-1] > item:
+            pr_que.append((no, item))
+            continue
             
-            if curr[0] == location:
-                return answer
+        if item == target and location == no:
+            answer = order
+            break
+        
+        order += 1
+
+    return answer
