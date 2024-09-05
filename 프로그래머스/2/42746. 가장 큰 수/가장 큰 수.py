@@ -1,22 +1,4 @@
-"""
-풀이 방법:
-- numbers의 요소를 문자열로 변환한다.
-- numbers 내림차순 정렬을 수행한다.
-
-    - 두 문자열의 길이가 다를 경우, 최대 비교 크기까지 자릿수를 맞춘다.
-    - 문제에서 각 원소의 최대 길이는 4자리이므로, 4자리까지만 비교하면 된다.
-    - 따라서 두 문자열의 길이를 최소 4자리까지 만든 뒤, 아래를 기준으로 정렬한다.
-    - 정렬 기준:
-        - 두 문자열에 대해 첫 번째 문자부터 차례대로 비교를 수행한다.
-        - 서로 다른 문자를 비교할 때, 사전 순으로 더 뒤에 오는 문자가 더 높은 우선순위를 가진다.
-        
-    - e.g. compare("3", "30") -> "3"이 더 높음
-        - "3" -> "3333"
-        - "30" -> "303030"
-        
-- 정렬 시킨 문자열을 합쳐서 답을 반환한다.
-"""
 def solution(numbers):
-    numbers = list(map(str, numbers))
-    numbers.sort(key=lambda x: x*3, reverse=True)
+    numbers = map(str, numbers)
+    numbers = sorted(numbers, key=lambda x: x*3, reverse=True)
     return str(int(''.join(numbers)))
