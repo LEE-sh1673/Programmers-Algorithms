@@ -18,9 +18,6 @@ class PriorityQueue:
 
     def min(self):
         return min(self.que) if self.que else 0
-        
-    def __repr__(self):
-        return f'queue ({self.que})'
 
 
 def solution(operations):
