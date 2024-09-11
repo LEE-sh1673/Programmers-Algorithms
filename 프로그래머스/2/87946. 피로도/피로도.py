@@ -1,11 +1,10 @@
 from itertools import permutations
 
 def solution(k, dungeons):
-    t = [nums_enter(k, ds) for ds in permutations(dungeons)]
-    return max(t)
+    return max([enter(k, ds) for ds in permutations(dungeons)])
 
 
-def nums_enter(k, dungeons):
+def enter(k, dungeons):
     player = k
     nums_enter = 0
     
