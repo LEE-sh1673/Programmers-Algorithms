@@ -1,11 +1,19 @@
-def solution(number, k):    
-    answer = []
+def solution(number, k):
+    answer = ''
     n = len(number)
     
-    for i in range(n):
-        while answer and k > 0 and answer[-1] < number[i]:
-            answer.pop()
-            k -= 1
-        answer.append(number[i])    
+    for idx, ch in enumerate(number):
+        if n - idx == k:
+            break
         
-    return ''.join(answer)[:n-k]
+        if ch == '9':
+            answer += ch
+            continue
+        
+        if k > 0 and any(ch < c for c in number[idx+1:idx+1+k]):
+            k -= 1
+            continue
+        
+        answer += ch
+
+    return answer
